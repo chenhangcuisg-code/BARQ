@@ -23,14 +23,14 @@ For gated Hugging Face models, authenticate with Hugging Face or set `HF_TOKEN` 
 bash scripts/quantize.sh Qwen/Qwen3-1.7B outputs/qwen3-1.7b-barq
 ```
 
-The script invokes the original quantization entry point with uniform balanced marginals, epsilon 0.001, and 30 Sinkhorn iterations. It exposes the vector dimension, group size, columns per group, and codebook bit width through environment variables. For example:
+The script invokes the original quantization entry point with uniform balanced marginals, epsilon 0.001, 30 Sinkhorn iterations, and the final M-step used by the archived experiment launchers. It enables the archived inverse-Hessian indexing fix and group chunking. It exposes vector dimension, group size, columns per group, and the precision of codebook values through environment variables. For example:
 
 ```bash
-VQ_DIM=4 GROUPSIZE=64 COLUMNS_PER_GROUP=256 CODEBOOK_BITS=8 \
+VQ_DIM=4 GROUPSIZE=64 COLUMNS_PER_GROUP=256 CODEBOOK_BITS=4 \
   bash scripts/quantize.sh Qwen/Qwen3-1.7B outputs/qwen3-1.7b-barq
 ```
 
-Vector dimension 4 and an 8-bit codebook index correspond to a nominal 2-bit index payload per weight. Actual storage also includes codebooks, scales, and metadata; nominal index bits are not the total stored bits per weight. The saved Hugging Face checkpoint contains reconstructed weights for evaluation and is not a packed low-bit deployment format.
+With `--wbits 2` and vector dimension 4, the implementation constructs 256 codewords, giving an 8-bit index for four weights and a nominal 2-bit index payload per weight. `CODEBOOK_BITS` controls quantization of the codeword values, separately from the index width. Actual storage also includes codebooks, scales, and metadata; nominal index bits are not the total stored bits per weight. The saved Hugging Face checkpoint contains reconstructed weights for evaluation and is not a packed low-bit deployment format.
 
 For the paired GPTVQ baseline, run the same command with `METHOD=baseline`. The default WikiText-2 loader samples calibration sequences from the training split and evaluates perplexity on the test split. The defaults are 128 calibration sequences of 2048 tokens; consult the source arguments when matching a particular experiment configuration.
 
