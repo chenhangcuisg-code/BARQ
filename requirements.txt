@@ -1,0 +1,12 @@
+# Quantization + lm-eval stack used for the paper's results (Python 3.10, CUDA 12.1).
+# Install torch first from the matching CUDA wheel index, e.g.
+#   pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cu121
+transformers==4.53.2
+huggingface-hub==0.34.4
+datasets==2.20.0
+xxhash
+lm_eval==0.4.11
+scikit-learn
+numpy<2
+tqdm
+sentencepiece
