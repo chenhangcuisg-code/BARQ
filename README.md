@@ -50,23 +50,23 @@ A 104-second film in ten chapters, from 2-bit weights and idle codewords through
 <p align="center"><img src="docs/assets/barq_overview.png" width="100%" alt="BARQ pipeline overview, Figure 2 of the paper"></p>
 <p align="center"><sub>Figure 2 of the paper: curvature-aware cost → balanced-entropic E-step → barycentric M-step → hard deployment.</sub></p>
 
-For one group of $N$ weight blocks $x_n \in \mathbb{R}^d$ and a codebook of $K$ codewords $c_k$, BARQ optimizes
+For one group of $`N`$ weight blocks $`x_n \in \mathbb{R}^d`$ and a codebook of $`K`$ codewords $`c_k`$, BARQ optimizes
 
-$$
+```math
 \Phi_\tau(C, P) \;=\; \sum_{k,n} P_{kn} \lVert c_k - x_n \rVert_H^2 \;+\; \tau\, \mathrm{KL}\big(P \,\Vert\, a b^\top\big),
 \qquad P \in \Pi(a, b),\quad a_k = \tfrac{1}{K},\quad b_n = \tfrac{1}{N},
-$$
+```
 
-and performs one assignment–update pair starting from the base VQ codebook $C^0$:
+and performs one assignment–update pair starting from the base VQ codebook $`C^0`$:
 
 | Step | What it does | Computation |
 |---|---|---|
-| ① **Curvature-aware cost** | Measures every block–codeword distance with calibration curvature $H = \mathrm{diag}(w)$ and sets a per-group temperature. | $M_{kn} = \lVert c^0_k - x_n \rVert_H^2$, $\ \tau = s\,\varepsilon$, $\ s = \mathrm{median}(M)$ |
-| ② **Balanced E-step** | Assigns blocks jointly by log-domain Sinkhorn scaling, alternating row (codeword) and column (block) normalization for $T_{sk}$ steps. | $\log u_k \leftarrow \log a_k - \mathrm{LSE}_n(G_{kn} + \log v_n)$, $\ G = -M/\tau$ |
-| ③ **Barycentric M-step** | Moves each codeword to the weighted mean of the blocks it received. | $c^+_k = \sum_n P^+_{kn}\, x_n \,/\, q_k$, $\ q_k = \sum_n P^+_{kn}$ |
-| ④ **Hard deployment** | Discards $P^+$ and encodes with the original nearest-codeword rule. | $z^+_n = \arg\min_k \lVert c^+_k - x_n \rVert_H^2$ |
+| ① **Curvature-aware cost** | Measures every block–codeword distance with calibration curvature $`H = \mathrm{diag}(w)`$ and sets a per-group temperature. | $`M_{kn} = \lVert c^0_k - x_n \rVert_H^2`$, $`\ \tau = s\,\varepsilon`$, $`\ s = \mathrm{median}(M)`$ |
+| ② **Balanced E-step** | Assigns blocks jointly by log-domain Sinkhorn scaling, alternating row (codeword) and column (block) normalization for $`T_{sk}`$ steps. | $`\log u_k \leftarrow \log a_k - \mathrm{LSE}_n(G_{kn} + \log v_n)`$, $`\ G = -M/\tau`$ |
+| ③ **Barycentric M-step** | Moves each codeword to the weighted mean of the blocks it received. | $`c^+_k = \sum_n P^+_{kn}\, x_n \,/\, q_k`$, $`\ q_k = \sum_n P^+_{kn}`$ |
+| ④ **Hard deployment** | Discards $`P^+`$ and encodes with the original nearest-codeword rule. | $`z^+_n = \arg\min_k \lVert c^+_k - x_n \rVert_H^2`$ |
 
-The paper configuration uses uniform marginals, $\varepsilon = 0.001$ and $T_{sk} = 30$ Sinkhorn steps.
+The paper configuration uses uniform marginals, $`\varepsilon = 0.001`$ and $`T_{sk} = 30`$ Sinkhorn steps.
 
 <details open>
 <summary><b>Each step, animated</b> (clips from the explainer film)</summary>
@@ -88,7 +88,7 @@ The paper configuration uses uniform marginals, $\varepsilon = 0.001$ and $T_{sk
 
 <img src="docs/assets/step4_deploy.gif" width="100%" alt="Animation of step 4: the transport plan dissolves, blocks link to their nearest refined codeword, and the usage histogram flattens">
 
-<sub>The scatter plots are a real run of the BARQ update on a 2-D toy group: 96 blocks, 16 codewords, $H = \mathrm{diag}(1, 0.35)$, $\varepsilon = 0.001$, 30 Sinkhorn steps, started from a 15-step k-means fit. In that toy, idle codewords go from 4 to 0, the largest codeword share from 18.8% to 14.6%, and hard distortion falls by 23%. These toy numbers are illustrations, not paper results.</sub>
+<sub>The scatter plots are a real run of the BARQ update on a 2-D toy group: 96 blocks, 16 codewords, $`H = \mathrm{diag}(1, 0.35)`$, $`\varepsilon = 0.001`$, 30 Sinkhorn steps, started from a 15-step k-means fit. In that toy, idle codewords go from 4 to 0, the largest codeword share from 18.8% to 14.6%, and hard distortion falls by 23%. These toy numbers are illustrations, not paper results.</sub>
 
 </details>
 
@@ -106,13 +106,13 @@ Each pair shares calibration data, weights, nominal codebook size and bits per v
 | Five-task zero-shot accuracy ↑ | **53 / 60** | **+3.0%** |
 | Both at once | **47 / 60** | — |
 
-| Codebook size $K$ | Vector dim $d$ | n | Perplexity change | Accuracy change |
+| Codebook size $`K`$ | Vector dim $`d`$ | n | Perplexity change | Accuracy change |
 |:-:|:-:|:-:|:-:|:-:|
 | 4 | 1 | 18 | -1.2% | +0.7% |
 | 16 | 2 | 18 | -8.2% | +3.6% |
 | 256 | 4 | 24 | -10.4% | +4.2% |
 
-Gains grow with codebook size. Individual regressions are concentrated at $K = 4$.
+Gains grow with codebook size. Individual regressions are concentrated at $`K = 4`$.
 
 <details>
 <summary><b>Full paired table</b> (paper Table 1, 60 rows)</summary>
@@ -220,7 +220,7 @@ At the displayed budgets, BARQ has the lowest perplexity and the highest five-ta
 - **PPL**: WikiText-2 test-split perplexity; lower is better.
 - **Avg.**: mean zero-shot accuracy (%) over ARC-Easy, ARC-Challenge, HellaSwag, PIQA and WinoGrande, from lm-evaluation-harness; higher is better.
 - **d**: vector (block) dimension. **K** = 2<sup>2d</sup>: codebook size, giving a 2-bit index payload per weight. **gs**: scale group size.
-- **bpv**: total bits per value in GPT-VQ's accounting, $\log_2 K / d + K d\, b_c / l + 16 / gs$, where $b_c$ is the codebook bit width and $l$ the number of weights sharing one codebook. The scale term adds 0.5, 0.25 and 0.125 at gs = 32, 64 and 128. BARQ changes neither K, d, l nor the index width, so each pair is compared at one budget.
+- **bpv**: total bits per value in GPT-VQ's accounting, $`\log_2 K / d + K d\, b_c / l + 16 / gs`$, where $`b_c`$ is the codebook bit width and $`l`$ the number of weights sharing one codebook. The scale term adds 0.5, 0.25 and 0.125 at gs = 32, 64 and 128. BARQ changes neither K, d, l nor the index width, so each pair is compared at one budget.
 - **Mean relative change**: (BARQ − GPT-VQ) / GPT-VQ for each configuration, averaged over the n configurations in that row.
 - **Δ vs best baseline**: BARQ minus the best baseline value for that model (lowest PPL or highest Avg.).
 - Calibration: 128 sequences of 2048 tokens from WikiText-2. Weight-only quantization. Source of all numbers: Tables 1–2 of [the paper](https://arxiv.org/abs/2610.04490).
