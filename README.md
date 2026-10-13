@@ -17,15 +17,15 @@ Chenhang Cui<sup>1†</sup>, Xu Xie<sup>3†</sup>, Linrui Xu<sup>2</sup>, Xiaoh
 
 **[Paper](https://arxiv.org/abs/2610.04490)** &nbsp;|&nbsp; **[Project page](https://chenhangcuisg-code.github.io/BARQ/)** &nbsp;|&nbsp; **[Method](#-method)** &nbsp;|&nbsp; **[Results](#-results)** &nbsp;|&nbsp; **[Quick start](#-quick-start)** &nbsp;|&nbsp; **[Citation](#-citation)**
 
-<img src="docs/assets/barq_teaser.gif" width="100%" alt="Side-by-side animation. Left: standard nearest-codeword fitting leaves 4 of 16 codewords idle. Right: BARQ's balanced assignment wakes them up, the codewords move to the barycenters of their blocks, and hard encoding uses all 16 codewords.">
+<a href="https://chenhangcuisg-code.github.io/BARQ/"><img src="docs/assets/film_poster.jpg" width="100%" alt="BARQ explainer film, 1:44. Click to play with sound."></a>
 
-<sub>Left: standard nearest-codeword fitting leaves 4 of 16 codewords idle (asleep). Right: BARQ refits the <i>same</i> codebook with balanced assignments, then encodes with the usual nearest-codeword rule. This is a real run of the BARQ update on a 2-D toy group; its numbers describe that toy only.</sub>
+<sub>▶ 1:44 explainer · <a href="https://chenhangcuisg-code.github.io/BARQ/">watch with sound</a> · <a href="https://chenhangcuisg-code.github.io/BARQ/assets/barq_film.mp4">MP4</a></sub>
 
 </div>
 
 ## 🔥 News
 
-- **2026-10-13** · 🎬 A 104-second animated explainer, a [project page](https://chenhangcuisg-code.github.io/BARQ/) and a refreshed README.
+- **2026-10-13** · 🎬 A 1:44 animated [explainer](https://chenhangcuisg-code.github.io/BARQ/).
 - **2026-10-03** · 📄 Paper released on [arXiv](https://arxiv.org/abs/2610.04490).
 - **2026-10-03** · 🚀 Code and reproduction commands released.
 
@@ -33,17 +33,14 @@ Chenhang Cui<sup>1†</sup>, Xu Xie<sup>3†</sup>, Linrui Xu<sup>2</sup>, Xiaoh
 
 Codebook (vector) quantizers store each short block of weights as the index of a shared codeword. They usually fit the codewords with nearest-codeword assignments, and nothing balances those assignments: a few codewords collect most blocks while others receive few or none and are barely updated. **BARQ refits an existing codebook with balanced soft assignments, then discards them.** The deployed model keeps the same codebook size, index width, lookup and inference path; only the codeword values change.
 
+<p align="center"><img src="docs/assets/barq_teaser.gif" width="100%" alt="Side-by-side animation. Left: standard nearest-codeword fitting leaves 4 of 16 codewords idle. Right: BARQ's balanced assignment wakes them up, the codewords move to the barycenters of their blocks, and hard encoding uses all 16 codewords."></p>
+<p align="center"><sub>Standard fitting (left) leaves 4 of 16 codewords idle; BARQ (right) refits the same codebook and uses all 16. Real BARQ run on a 2-D toy group.</sub></p>
+
 - ⚖️ **Balanced, curvature-aware fitting.** Joint soft assignments from entropic optimal transport with uniform marginals and curvature-weighted costs. In the exact solution, every codeword receives exactly 1/K of the fitting mass.
 - 🎯 **Closed-form update.** Each codeword moves to the assignment-weighted barycenter of its blocks, the exact minimizer for fixed assignments.
 - 🔒 **No change at inference.** Soft assignments are used only for fitting; weights are encoded with the standard hard nearest-codeword rule.
 - 📐 **Theory.** A well-posed balanced E-step (Thm. 1), descent of the fitting objective for the exact assignment–update pair (Thm. 2), a sufficient condition for lower hard-quantization distortion (Thm. 3), and transfer to layer output, loss and perplexity (Thm. 4).
 - 📈 **Consistent gains.** Paired with GPT-VQ at matched bit budgets on six LLMs, BARQ lowers WikiText-2 perplexity in **54/60** configurations and raises five-task zero-shot accuracy in **53/60** (mean **−7.0%** perplexity, **+3.0%** accuracy).
-
-## 🎬 Watch the explainer
-
-<a href="https://chenhangcuisg-code.github.io/BARQ/"><img src="docs/assets/film_poster.jpg" width="100%" alt="Poster frame of the BARQ explainer film with a play button"></a>
-
-A 104-second film in ten chapters, from 2-bit weights and idle codewords through the four BARQ steps to the paper's results. **[Play it with sound on the project page](https://chenhangcuisg-code.github.io/BARQ/)** (chapters, captions, keyboard controls) or **[download the MP4](docs/assets/barq_film.mp4)** (1280×720, 1:44, with soundtrack).
 
 ## 🧭 Method
 

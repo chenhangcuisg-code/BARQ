@@ -11,164 +11,52 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=STIX+Two+Text:ital,wght@0,500;1,500&display=swap">
 <style>
-:root{
-  color-scheme:dark;
-  --bg:#05070f;--panel:#0b1226;--panel2:#101a36;--line:#1d2c55;--ink:#e9f2ff;--dim:#8fa4cc;--acc:#38e1ff;--mint:#3df5b0;--coral:#ff6b6b;--gold:#ffc35a;
-  --disp:"Chakra Petch","Segoe UI",system-ui,sans-serif;
-  --mono:"JetBrains Mono",Consolas,"Courier New",monospace;
-  --sans:Figtree,"Segoe UI",system-ui,sans-serif;
-}
+:root{color-scheme:dark;--line:#1d2c55;--ink:#e9f2ff;--dim:#8fa4cc;--acc:#38e1ff;
+  --disp:"Chakra Petch","Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono",Consolas,"Courier New",monospace}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink)}
-body{font-family:var(--sans);font-size:15px;line-height:1.6}
-.wrap{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:28px 72px;display:grid;gap:22px}
-header{display:grid;gap:8px}
-.eyebrow{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.4vw,46px);line-height:1.08;margin:0;letter-spacing:.01em;text-wrap:balance}
-h1 em{font-style:normal;color:var(--acc);text-shadow:0 0 24px #38e1ff55}
-.authors{margin:0;color:var(--ink);font-size:16px}
-.authors sup,.affil sup{color:var(--acc);font-size:.7em}
-.affil{margin:0;color:var(--dim);font-size:13.5px}
-.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.links a{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;font:600 13px var(--mono)}
-.links a:hover{border-color:var(--acc)}
-.links a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.links svg{width:16px;height:16px}
-.player{display:grid;gap:10px}
-.stage{position:relative;aspect-ratio:16/9;max-width:100%;background:#04060d;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #38e1ff14,0 24px 70px #38e1ff12}
-.stage canvas{display:block;width:100%;height:100%;object-fit:contain;cursor:pointer}
-.big-play{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 12px;border-radius:999px;border:1px solid #38e1ff55;background:#060c1ce0;color:var(--ink);font:700 17px var(--disp);letter-spacing:.03em;text-align:left;cursor:pointer;backdrop-filter:blur(6px)}
+html,body{margin:0;height:100%;background:#000;color:var(--ink);overflow:hidden}
+.theater{position:fixed;inset:0;background:#000}
+.theater canvas{display:block;width:100%;height:100%;object-fit:contain;cursor:pointer}
+.big-play{position:absolute;left:50%;top:calc(50% + min(28vh, 15.75vw));transform:translate(-50%,-50%);width:84px;height:84px;padding:0;border-radius:50%;border:1px solid #38e1ff66;background:#060c1cb0;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px)}
 .big-play[hidden]{display:none}
-.big-play:hover{border-color:var(--acc);box-shadow:0 0 24px #38e1ff40}
-.big-play:focus-visible,.ctl:focus-visible,.chapters button:focus-visible,.scrub input:focus-visible,.copy:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.big-play .tri{width:46px;height:46px;flex:none;border-radius:50%;background:var(--acc);display:grid;place-items:center}
-.big-play .tri::before{content:"";border-left:15px solid #04101c;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
-.big-play small{display:block;font:500 12px var(--mono);color:var(--dim);letter-spacing:.03em}
-.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:8px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;transition:opacity .35s}
-.ctl{height:40px;min-width:40px;padding:0 10px;display:inline-grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:600 13px var(--mono);cursor:pointer}
+.big-play:hover{border-color:var(--acc);box-shadow:0 0 28px #38e1ff55}
+.big-play .tri{width:64px;height:64px;border-radius:50%;background:var(--acc);display:grid;place-items:center}
+.big-play .tri::before{content:"";border-left:20px solid #04101c;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px}
+#bigtxt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.controls{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:28px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.78));transition:opacity .35s}
+.ctl{height:40px;min-width:40px;padding:0 10px;display:inline-grid;place-items:center;border-radius:10px;border:1px solid #ffffff22;background:#0b1226cc;color:var(--ink);font:600 13px var(--mono);cursor:pointer}
 .ctl:hover{border-color:var(--acc)}
 .ctl svg{display:block}
+.big-play:focus-visible,.ctl:focus-visible,.scrub input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .clock{font:500 13px var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;min-width:96px}
-.scrub{position:relative;flex:1 1 220px;min-width:140px;height:30px;display:flex;align-items:center}
+.scrub{position:relative;flex:1 1 200px;min-width:120px;height:30px;display:flex;align-items:center}
 .scrub input{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:30px;margin:0;cursor:pointer}
-.scrub input::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--acc) var(--pct,0%),#1d2c55 var(--pct,0%))}
-.scrub input::-moz-range-track{height:6px;border-radius:3px;background:#1d2c55}
+.scrub input::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--acc) var(--pct,0%),#ffffff2e var(--pct,0%))}
+.scrub input::-moz-range-track{height:6px;border-radius:3px;background:#ffffff2e}
 .scrub input::-moz-range-progress{height:6px;border-radius:3px;background:var(--acc)}
 .scrub input::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-5px;border-radius:50%;background:var(--ink);border:0}
 .scrub input::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ink);border:0}
 .ticks{position:absolute;left:8px;right:8px;top:50%;height:12px;transform:translateY(-50%);pointer-events:none}
-.ticks i{position:absolute;top:0;width:2px;height:12px;margin-left:-1px;background:var(--panel)}
-.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.chapters button{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:baseline;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font:inherit}
-.chapters button:hover{border-color:#38e1ff80}
-.chapters button[aria-current="true"]{border-color:var(--acc);background:#0d1a33}
-.chapters .n{font:600 12px var(--mono);color:var(--acc);grid-row:span 2}
-.chapters .tt{font:600 14px var(--disp);letter-spacing:.02em;line-height:1.3}
-.chapters .tm{font:500 12px var(--mono);color:var(--dim)}
-.player:fullscreen{background:#000;padding:14px 16px;display:flex;flex-direction:column;justify-content:center;gap:10px}
-.player:fullscreen .stage{flex:1 1 auto;min-height:0;aspect-ratio:auto;border:0;border-radius:0;background:#000;box-shadow:none}
-.player.idle .controls{opacity:0}
-.player.idle{cursor:none}
-.wrap>*{min-width:0}
-.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px;border-top:1px solid var(--line);padding-top:22px}
-.about>div{min-width:0}
-.about h2{font:700 22px var(--disp);letter-spacing:.02em;margin:0 0 8px;color:var(--ink)}
-.about p,.about li{color:#c3d0ea;max-width:65ch}
-.about p{margin:0 0 12px}
-.about ol,.about ul{margin:0 0 12px;padding-left:1.3em}
-.about li{margin-bottom:5px}
-.about b{color:var(--ink)}
-.about a{color:var(--acc)}
-.note{font-size:13.5px;color:var(--dim)!important}
-.keys{font:500 12.5px var(--mono);color:var(--dim)!important;line-height:1.9}
-.keys kbd{font:600 12px var(--mono);color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
-.cite{grid-column:1/-1}
-.cite pre{margin:0;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow-x:auto;font:500 13px/1.55 var(--mono);color:#c3d0ea}
-.cite .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
-.copy{height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:600 12px var(--mono);cursor:pointer}
-.copy:hover{border-color:var(--acc)}
-table.res{border-collapse:collapse;width:100%;font:500 13.5px var(--mono);margin:0 0 10px}
-table.res th,table.res td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;color:#c3d0ea}
-table.res th:first-child,table.res td:first-child{text-align:left}
-table.res th{color:var(--dim);font-weight:600}
-table.res td.win{color:var(--mint)}
-@media (max-width:560px){.clock{min-width:auto}.big-play{font-size:15px}.big-play .tri{width:38px;height:38px}}
+.ticks i{position:absolute;top:0;width:2px;height:12px;margin-left:-1px;background:#000}
+.theater.idle .controls{opacity:0;pointer-events:none}
+.theater.idle{cursor:none}
+.theater.idle canvas{cursor:none}
+@media (max-width:560px){.clock{min-width:auto}.big-play{width:64px;height:64px}.big-play .tri{width:48px;height:48px}.controls{gap:8px;padding:24px 10px 10px}}
 @media (prefers-reduced-motion:reduce){.controls{transition:none}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <header>
-    <span class="eyebrow">arXiv 2610.04490 · cs.LG · 1:44 animated explainer · Canvas 2D + Web Audio</span>
-    <h1><em>BARQ</em> · Balanced Codebook Refinement for Low-Bit LLM Quantization</h1>
-    <p class="authors">Chenhang Cui<sup>1†</sup>, Xu Xie<sup>3†</sup>, Linrui Xu<sup>2</sup>, Xiaohao Liu<sup>1</sup>, Xingyu Zhu<sup>1</sup>, Fei Shen<sup>1*</sup>, Tat-Seng Chua<sup>1</sup></p>
-    <p class="affil"><sup>1</sup>National University of Singapore · <sup>2</sup>Central South University · <sup>3</sup>Independent Researcher · <sup>†</sup>equal contribution · <sup>*</sup>corresponding author</p>
-    <nav class="links" aria-label="Paper links">
-      <a href="https://arxiv.org/abs/2610.04490" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z M15 3v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>arXiv</a>
-      <a href="https://arxiv.org/pdf/2610.04490" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>PDF</a>
-      <a href="https://github.com/chenhangcuisg-code/BARQ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7 3 12l5 5M16 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Code</a>
-      <a href="assets/barq_film.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l11-7z" fill="currentColor"/></svg>MP4</a>
-      <a href="#cite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4H8c0 2 1 3 3 3v2c-3 0-4-2-4-5zm7 0h4v4h-3c0 2 1 3 3 3v2c-3 0-4-2-4-5z" fill="currentColor"/></svg>BibTeX</a>
-    </nav>
-  </header>
-
-  <section class="player" id="player" aria-label="Film player">
-    <div class="stage">
-      <canvas id="film" width="1920" height="1080" aria-label="Animated film explaining BARQ: idle codewords, curvature-aware cost, balanced Sinkhorn assignment, barycentric update, hard deployment and results"></canvas>
-      <button class="big-play" id="bigplay" type="button"><span class="tri" aria-hidden="true"></span><span id="bigtxt">Play the film<small>1:44 · turn sound on</small></span></button>
-    </div>
-    <div class="controls" id="controls">
-      <button class="ctl" id="pp" type="button" aria-label="Play"></button>
-      <span class="clock" id="clock">0:00 / 1:44</span>
-      <div class="scrub"><input id="seek" type="range" min="0" max="104" step="0.01" value="0" aria-label="Seek"><div class="ticks" id="ticks"></div></div>
-      <button class="ctl" id="cc" type="button" aria-label="Captions">CC on</button>
-      <button class="ctl" id="snd" type="button" aria-label="Mute"></button>
-      <button class="ctl" id="fs" type="button" aria-label="Fullscreen"></button>
-    </div>
-  </section>
-
-  <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
-
-  <section class="about">
-    <div>
-      <h2>The idea in four steps</h2>
-      <p>Codebook (vector) quantization stores each short block of weights as the index of a shared codeword. Standard fitting assigns every block to its nearest codeword, so some codewords collect most blocks and others receive none and are never updated. BARQ refines an existing codebook:</p>
-      <ol>
-        <li><b>Curvature-aware cost.</b> Distances use calibration curvature, <i>H</i> = diag(<i>w</i>), and every block–codeword pair gets a cost.</li>
-        <li><b>Balanced assignment.</b> Entropic optimal transport with uniform marginals, solved by log-domain Sinkhorn scaling. In the exact solution every codeword receives 1/<i>K</i> of the fitting mass.</li>
-        <li><b>Barycentric update.</b> Each codeword moves to the assignment-weighted mean of its blocks, the exact minimizer for a fixed assignment.</li>
-        <li><b>Hard deployment.</b> The soft assignment is discarded; weights are encoded with the usual nearest-codeword rule. Codebook size, index width and inference path are unchanged.</li>
-      </ol>
-      <p class="keys">Presenter keys<br><kbd>Space</kbd> play/pause · <kbd>←</kbd><kbd>→</kbd> ±5 s · <kbd>0</kbd>–<kbd>9</kbd> jump to chapter · <kbd>C</kbd> captions · <kbd>M</kbd> sound · <kbd>F</kbd> fullscreen</p>
-    </div>
-    <div>
-      <h2>Results at a glance</h2>
-      <p>Paired with GPT-VQ at matched bit budgets on six LLMs (Llama3.2-1B, Llama3.1-8B, Qwen3-1.7B/8B/14B/32B), <i>n</i> = 60 configurations:</p>
-      <table class="res">
-        <thead><tr><th>Measure</th><th>BARQ better</th><th>Mean change</th></tr></thead>
-        <tbody>
-          <tr><td>WikiText-2 perplexity ↓</td><td class="win">54 / 60</td><td class="win">−7.0%</td></tr>
-          <tr><td>Five-task zero-shot accuracy ↑</td><td class="win">53 / 60</td><td class="win">+3.0%</td></tr>
-          <tr><td>Both at once</td><td class="win">47 / 60</td><td>—</td></tr>
-        </tbody>
-      </table>
-      <p class="note">Mean change is the mean per-configuration relative change, BARQ vs GPT-VQ. By codebook size the perplexity change is −1.2% (<i>K</i> = 4, <i>n</i> = 18), −8.2% (<i>K</i> = 16, <i>n</i> = 18) and −10.4% (<i>K</i> = 256, <i>n</i> = 24). Against GPTQ, HQQ, QuIP, VPTQ and AQLM at the displayed budgets, BARQ has the lowest perplexity and highest five-task mean on all six models (Table 2).</p>
-      <h2>About this film</h2>
-      <p class="note">The scatter plots are a real run of the BARQ refinement on a two-dimensional toy group (96 blocks, 16 codewords, <i>H</i> = diag(1, 0.35), ε = 0.001, 30 Sinkhorn steps), started from a k-means-style fit. Toy numbers (idle codewords, maximum share, distortion) describe that toy only. The results chapters use Tables 1–2 of the paper. Every frame is drawn with Canvas 2D and the score is synthesized live with Web Audio.</p>
-    </div>
-    <div class="cite" id="cite">
-      <div class="row"><h2>Citation</h2><button class="copy" id="copybib" type="button">Copy BibTeX</button></div>
-<pre id="bib">@misc{cui2026barqbalancedcodebookrefinement,
-      title={BARQ: Balanced Codebook Refinement for Low-Bit LLM Quantization},
-      author={Chenhang Cui and Xu Xie and Linrui Xu and Xiaohao Liu and Xingyu Zhu and Fei Shen and Tat-Seng Chua},
-      year={2026},
-      eprint={2610.04490},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2610.04490},
-}</pre>
-    </div>
-  </section>
+<main class="theater" id="player" aria-label="BARQ explainer film">
+  <canvas id="film" width="1920" height="1080" aria-label="Animated film explaining BARQ: idle codewords, curvature-aware cost, balanced Sinkhorn assignment, barycentric update, hard deployment and results"></canvas>
+  <button class="big-play" id="bigplay" type="button"><span class="tri" aria-hidden="true"></span><span id="bigtxt">Play<small>1:44 · sound on</small></span></button>
+  <div class="controls" id="controls">
+    <button class="ctl" id="pp" type="button" aria-label="Play"></button>
+    <span class="clock" id="clock">0:00 / 1:44</span>
+    <div class="scrub"><input id="seek" type="range" min="0" max="104" step="0.01" value="0" aria-label="Seek"><div class="ticks" id="ticks"></div></div>
+    <button class="ctl" id="cc" type="button" aria-label="Captions">CC on</button>
+    <button class="ctl" id="snd" type="button" aria-label="Mute"></button>
+    <button class="ctl" id="fs" type="button" aria-label="Fullscreen"></button>
+  </div>
 </main>
 
 <script>
@@ -962,7 +850,7 @@ function seek(t){t=clamp(t,0,DUR);if(playing)play(t);else{pausedAt=t;started=tru
 
 /* ============ UI ============ */
 const $=id=>document.getElementById(id);
-const playerEl=$('player'),seekEl=$('seek'),ppBtn=$('pp'),clockEl=$('clock'),ccBtn=$('cc'),sndBtn=$('snd'),fsBtn=$('fs'),big=$('bigplay'),bigTxt=$('bigtxt'),nav=$('chapters'),ticks=$('ticks');
+const playerEl=$('player'),seekEl=$('seek'),ppBtn=$('pp'),clockEl=$('clock'),ccBtn=$('cc'),sndBtn=$('snd'),fsBtn=$('fs'),big=$('bigplay'),bigTxt=$('bigtxt'),ticks=$('ticks');
 const ICO={
   play:'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>',
   pause:'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1" fill="currentColor"/></svg>',
@@ -973,9 +861,7 @@ const ICO={
 const fmt=s=>{s=Math.max(0,Math.floor(s+1e-6));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
 seekEl.max=DUR;fsBtn.innerHTML=ICO.fs;
 SC.forEach((c,i)=>{if(i>0){const tk=document.createElement('i');tk.style.left=(c.F0/DUR*100)+'%';ticks.appendChild(tk);}
-  const b=document.createElement('button');b.type='button';b.innerHTML=`<span class="n">${c.n}</span><span class="tt">${c.nav}</span><span class="tm">${fmt(c.F0)}</span>`;
-  b.addEventListener('click',()=>play(c.F0+.01));nav.appendChild(b);});
-const navBtns=[...nav.children];
+});
 function refreshUI(){
   ppBtn.innerHTML=playing?ICO.pause:ICO.play;ppBtn.setAttribute('aria-label',playing?'Pause':'Play');
   sndBtn.innerHTML=muted?ICO.mute:ICO.snd;sndBtn.setAttribute('aria-label',muted?'Unmute':'Mute');
@@ -983,15 +869,13 @@ function refreshUI(){
   big.hidden=playing;
   const t=filmNow();
   bigTxt.innerHTML=!started?'Play the film<small>1:44 · turn sound on</small>':t>=DUR-.05?'Watch again<small>from the beginning</small>':'Resume<small>'+fmt(t)+' / '+fmt(DUR)+'</small>';
-  if(!playing)playerEl.classList.remove('idle');
+  if(!playing)playerEl.classList.remove('idle');else wake();
 }
-let lastSec=-1,lastCh=-1;
+let lastSec=-1;
 function syncUI(t){
   if(!dragging)seekEl.value=t;
   seekEl.style.setProperty('--pct',(t/DUR*100)+'%');
   const s=Math.floor(t);if(s!==lastSec){lastSec=s;clockEl.textContent=fmt(t)+' / '+fmt(DUR);}
-  const ci=chIdx(t);
-  if(ci!==lastCh){lastCh=ci;navBtns.forEach((b,i)=>b.setAttribute('aria-current',i===ci?'true':'false'));}
 }
 let external=false;
 function frame(){
@@ -1016,7 +900,8 @@ sndBtn.addEventListener('click',()=>setMute(!muted));
 function toggleFS(){try{if(document.fullscreenElement)document.exitFullscreen();else{const p=playerEl.requestFullscreen&&playerEl.requestFullscreen();if(p&&p.catch)p.catch(()=>{});}}catch(e){}}
 fsBtn.addEventListener('click',toggleFS);
 let idleT=0;
-playerEl.addEventListener('mousemove',()=>{playerEl.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>{if(playing&&document.fullscreenElement)playerEl.classList.add('idle');},2500);});
+function wake(){playerEl.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>{if(playing)playerEl.classList.add('idle');},2500);}
+['mousemove','pointerdown','touchstart','keydown'].forEach(ev=>(ev==='keydown'?document:playerEl).addEventListener(ev,wake,{passive:true}));
 document.addEventListener('keydown',e=>{
   if(e.target&&e.target.tagName==='INPUT'&&e.target!==seekEl)return;
   if(e.metaKey||e.ctrlKey||e.altKey)return;
@@ -1029,9 +914,6 @@ document.addEventListener('keydown',e=>{
   else if(k==='m'||k==='M'){setMute(!muted);}
   else if(k==='c'||k==='C'){ccBtn.click();}
 });
-const copyBtn=$('copybib');
-if(copyBtn)copyBtn.addEventListener('click',()=>{const s=$('bib').textContent;const done=()=>{copyBtn.textContent='Copied';setTimeout(()=>copyBtn.textContent='Copy BibTeX',1600);};
-  try{navigator.clipboard.writeText(s).then(done,()=>{});}catch(e){}});
 /* hooks for the offline renderer */
 window.__barq={render,teaser,TL,DUR,POSTER,SC,mode:o=>{Object.assign(MODE,o);external=true;},renderAudio,wavChunk};
 refreshUI();
