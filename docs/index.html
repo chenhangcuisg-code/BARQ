@@ -38,6 +38,7 @@ h1 em{font-style:normal;color:var(--acc);text-shadow:0 0 24px #38e1ff55}
 .stage{position:relative;aspect-ratio:16/9;max-width:100%;background:#04060d;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #38e1ff14,0 24px 70px #38e1ff12}
 .stage canvas{display:block;width:100%;height:100%;object-fit:contain;cursor:pointer}
 .big-play{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 12px;border-radius:999px;border:1px solid #38e1ff55;background:#060c1ce0;color:var(--ink);font:700 17px var(--disp);letter-spacing:.03em;text-align:left;cursor:pointer;backdrop-filter:blur(6px)}
+.big-play[hidden]{display:none}
 .big-play:hover{border-color:var(--acc);box-shadow:0 0 24px #38e1ff40}
 .big-play:focus-visible,.ctl:focus-visible,.chapters button:focus-visible,.scrub input:focus-visible,.copy:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .big-play .tri{width:46px;height:46px;flex:none;border-radius:50%;background:var(--acc);display:grid;place-items:center}
